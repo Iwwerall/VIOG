@@ -68,6 +68,7 @@ bool CMasternodeConfig::read(std::string& strErr) {
             return false;
         }
         
+        /* Enable multiple masternodes on one IP
         int mainnetDefaultPort = Params(CBaseChainParams::MAIN).GetDefaultPort();
         if(Params().NetworkIDString() == CBaseChainParams::MAIN) {
             if(port != mainnetDefaultPort) {
@@ -84,7 +85,7 @@ bool CMasternodeConfig::read(std::string& strErr) {
             streamConfig.close();
             return false;
         }
-
+        */
 
         add(alias, ip, privKey, txHash, outputIndex);
     }

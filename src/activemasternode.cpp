@@ -246,6 +246,8 @@ bool CActiveMasternode::CreateBroadcast(std::string strService, std::string strK
     }
 
     CService service = CService(strService);
+
+    /* Enable more than one MN per IP
     int mainnetDefaultPort = Params(CBaseChainParams::MAIN).GetDefaultPort();
     if(Params().NetworkIDString() == CBaseChainParams::MAIN) {
         if(service.GetPort() != mainnetDefaultPort) {
@@ -258,6 +260,7 @@ bool CActiveMasternode::CreateBroadcast(std::string strService, std::string strK
         LogPrintf("CActiveMasternode::CreateBroadcast() - %s\n", errorMessage);
         return false;
     }
+    */
 
     addrman.Add(CAddress(service), CNetAddr("127.0.0.1"), 2*60*60);
 

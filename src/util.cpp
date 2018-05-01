@@ -610,10 +610,10 @@ const boost::filesystem::path &GetDataDir(bool fNetSpecific)
     } else {
         // If the old folder exists return that one, else the new one (even if it does not exist)
         path = GetDefaultOldDataDir();
-        if (!fs::is_directory(path)) {
+        if (!boost::filesystem::exists(path) || !boost::filesystem::is_directory(path)){
             path = GetDefaultDataDir();
-            return path;
         }
+        return path;
     }
     if (fNetSpecific)
         path /= BaseParams().DataDir();
@@ -660,25 +660,19 @@ void ClearDatadirCache()
 boost::filesystem::path GetConfigFile()
 {
     // First check if the old file is there, else use the new one, -conf skips this
-    boost::filesystem::path pathConfigFile = GetOldConfigFile();
+    boost::filesystem::path pathConfigFile(GetArg("-conf", BITCOIN_CONF_FILENAME_OLD));
 
-    if(!boost::filesystem::exists(GetDataDir(false) / pathConfigFile) || mapArgs.count("-conf"))
+    if (!pathConfigFile.is_complete())
+        pathConfigFile = GetDataDir(false) / pathConfigFile;
+
+    // GetDataDir already checks for the old or the new folder, check for the file now
+    if(!boost::filesystem::exists(pathConfigFile) || mapArgs.count("-conf"))
     {
         pathConfigFile = GetArg("-conf", BITCOIN_CONF_FILENAME);
 
         if (!pathConfigFile.is_complete())
             pathConfigFile = GetDataDir(false) / pathConfigFile;
     }
-
-    return pathConfigFile;
-}
-
-boost::filesystem::path GetOldConfigFile()
-{
-    boost::filesystem::path pathConfigFile(GetArg("-conf", BITCOIN_CONF_FILENAME_OLD));
-
-    if (!pathConfigFile.is_complete())
-        pathConfigFile = GetDataDir(false) / pathConfigFile;
 
     return pathConfigFile;
 }

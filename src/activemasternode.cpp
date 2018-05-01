@@ -69,6 +69,7 @@ void CActiveMasternode::ManageStatus()
             service = CService(strMasterNodeAddr);
         }
 
+        /*
         int mainnetDefaultPort = Params(CBaseChainParams::MAIN).GetDefaultPort();
         if(Params().NetworkIDString() == CBaseChainParams::MAIN) {
             if(service.GetPort() != mainnetDefaultPort) {
@@ -81,6 +82,7 @@ void CActiveMasternode::ManageStatus()
             LogPrintf("CActiveMasternode::ManageStatus() - not capable: %s\n", notCapableReason);
             return;
         }
+        */
 
         LogPrintf("CActiveMasternode::ManageStatus() - Checking inbound connection to '%s'\n", service.ToString());
 
@@ -244,6 +246,8 @@ bool CActiveMasternode::CreateBroadcast(std::string strService, std::string strK
     }
 
     CService service = CService(strService);
+
+    /* Enable more than one MN per IP
     int mainnetDefaultPort = Params(CBaseChainParams::MAIN).GetDefaultPort();
     if(Params().NetworkIDString() == CBaseChainParams::MAIN) {
         if(service.GetPort() != mainnetDefaultPort) {
@@ -256,6 +260,7 @@ bool CActiveMasternode::CreateBroadcast(std::string strService, std::string strK
         LogPrintf("CActiveMasternode::CreateBroadcast() - %s\n", errorMessage);
         return false;
     }
+    */
 
     addrman.Add(CAddress(service), CNetAddr("127.0.0.1"), 2*60*60);
 

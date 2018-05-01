@@ -7,3 +7,5 @@ if [ -z ${LIBTOOLIZE} ] && GLIBTOOLIZE="`which glibtoolize 2>/dev/null`"; then
   export LIBTOOLIZE
 fi
 autoreconf --install --force --warnings=all
+chmod +x share/genbuild.sh
+chmod +x src/leveldb/build_detect_platform

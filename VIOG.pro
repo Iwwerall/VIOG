@@ -28,6 +28,11 @@ INCLUDEPATH += C:\deps\boost_1_55_0 \
     src\qt \
     src\leveldb \
     src\leveldb\include \
+    c:\deps\openssl-1.0.1j\include \
+    c:\deps\db-4.8.30.NC\build_windows \
+    c:\deps\zlib-1.2.11 \
+    c:\deps\protoc \
+    c:\deps\protobuf-3.5.1\src \
     src
 
 SOURCES += \
@@ -41,84 +46,11 @@ SOURCES += \
     src/crypto/sha1.cpp \
     src/crypto/sha256.cpp \
     src/crypto/sha512.cpp \
-    src/leveldb/db/autocompact_test.cc \
-    src/leveldb/db/builder.cc \
-    src/leveldb/db/c.cc \
-    src/leveldb/db/corruption_test.cc \
-    src/leveldb/db/db_bench.cc \
-    src/leveldb/db/db_impl.cc \
-    src/leveldb/db/db_iter.cc \
-    src/leveldb/db/db_test.cc \
-    src/leveldb/db/dbformat.cc \
-    src/leveldb/db/dbformat_test.cc \
-    src/leveldb/db/dumpfile.cc \
-    src/leveldb/db/filename.cc \
-    src/leveldb/db/filename_test.cc \
-    src/leveldb/db/leveldb_main.cc \
-    src/leveldb/db/log_reader.cc \
-    src/leveldb/db/log_test.cc \
-    src/leveldb/db/log_writer.cc \
-    src/leveldb/db/memtable.cc \
-    src/leveldb/db/repair.cc \
-    src/leveldb/db/skiplist_test.cc \
-    src/leveldb/db/table_cache.cc \
-    src/leveldb/db/version_edit.cc \
-    src/leveldb/db/version_edit_test.cc \
-    src/leveldb/db/version_set.cc \
-    src/leveldb/db/version_set_test.cc \
-    src/leveldb/db/write_batch.cc \
-    src/leveldb/db/write_batch_test.cc \
-    src/leveldb/doc/bench/db_bench_sqlite3.cc \
-    src/leveldb/doc/bench/db_bench_tree_db.cc \
-    src/leveldb/helpers/memenv/memenv.cc \
-    src/leveldb/helpers/memenv/memenv_test.cc \
-    src/leveldb/issues/issue178_test.cc \
-    src/leveldb/issues/issue200_test.cc \
-    src/leveldb/port/port_posix.cc \
-    src/leveldb/port/port_win.cc \
-    src/leveldb/table/block.cc \
-    src/leveldb/table/block_builder.cc \
-    src/leveldb/table/filter_block.cc \
-    src/leveldb/table/filter_block_test.cc \
-    src/leveldb/table/format.cc \
-    src/leveldb/table/iterator.cc \
-    src/leveldb/table/merger.cc \
-    src/leveldb/table/table.cc \
-    src/leveldb/table/table_builder.cc \
-    src/leveldb/table/table_test.cc \
-    src/leveldb/table/two_level_iterator.cc \
-    src/leveldb/util/arena.cc \
-    src/leveldb/util/arena_test.cc \
-    src/leveldb/util/bloom.cc \
-    src/leveldb/util/bloom_test.cc \
-    src/leveldb/util/cache.cc \
-    src/leveldb/util/cache_test.cc \
-    src/leveldb/util/coding.cc \
-    src/leveldb/util/coding_test.cc \
-    src/leveldb/util/comparator.cc \
-    src/leveldb/util/crc32c.cc \
-    src/leveldb/util/crc32c_test.cc \
-    src/leveldb/util/env.cc \
-    src/leveldb/util/env_posix.cc \
-    src/leveldb/util/env_test.cc \
-    src/leveldb/util/env_win.cc \
-    src/leveldb/util/filter_policy.cc \
-    src/leveldb/util/hash.cc \
-    src/leveldb/util/hash_test.cc \
-    src/leveldb/util/histogram.cc \
-    src/leveldb/util/logging.cc \
-    src/leveldb/util/options.cc \
-    src/leveldb/util/status.cc \
-    src/leveldb/util/testharness.cc \
-    src/leveldb/util/testutil.cc \
     src/policy/fees.cpp \
     src/policy/policy.cpp \
     src/policy/rbf.cpp \
     src/primitives/block.cpp \
     src/primitives/transaction.cpp \
-    src/qt/test/paymentservertests.cpp \
-    src/qt/test/test_main.cpp \
-    src/qt/test/uritests.cpp \
     src/qt/addressbookpage.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/askpassphrasedialog.cpp \
@@ -378,70 +310,12 @@ HEADERS += \
     src/crypto/sph_simd.h \
     src/crypto/sph_skein.h \
     src/crypto/sph_types.h \
-    src/leveldb/db/builder.h \
-    src/leveldb/db/db_impl.h \
-    src/leveldb/db/db_iter.h \
-    src/leveldb/db/dbformat.h \
-    src/leveldb/db/filename.h \
-    src/leveldb/db/log_format.h \
-    src/leveldb/db/log_reader.h \
-    src/leveldb/db/log_writer.h \
-    src/leveldb/db/memtable.h \
-    src/leveldb/db/skiplist.h \
-    src/leveldb/db/snapshot.h \
-    src/leveldb/db/table_cache.h \
-    src/leveldb/db/version_edit.h \
-    src/leveldb/db/version_set.h \
-    src/leveldb/db/write_batch_internal.h \
-    src/leveldb/helpers/memenv/memenv.h \
-    src/leveldb/include/leveldb/c.h \
-    src/leveldb/include/leveldb/cache.h \
-    src/leveldb/include/leveldb/comparator.h \
-    src/leveldb/include/leveldb/db.h \
-    src/leveldb/include/leveldb/dumpfile.h \
-    src/leveldb/include/leveldb/env.h \
-    src/leveldb/include/leveldb/filter_policy.h \
-    src/leveldb/include/leveldb/iterator.h \
-    src/leveldb/include/leveldb/options.h \
-    src/leveldb/include/leveldb/slice.h \
-    src/leveldb/include/leveldb/status.h \
-    src/leveldb/include/leveldb/table.h \
-    src/leveldb/include/leveldb/table_builder.h \
-    src/leveldb/include/leveldb/write_batch.h \
-    src/leveldb/port/win/stdint.h \
-    src/leveldb/port/atomic_pointer.h \
-    src/leveldb/port/port.h \
-    src/leveldb/port/port_example.h \
-    src/leveldb/port/port_posix.h \
-    src/leveldb/port/port_win.h \
-    src/leveldb/port/thread_annotations.h \
-    src/leveldb/table/block.h \
-    src/leveldb/table/block_builder.h \
-    src/leveldb/table/filter_block.h \
-    src/leveldb/table/format.h \
-    src/leveldb/table/iterator_wrapper.h \
-    src/leveldb/table/merger.h \
-    src/leveldb/table/two_level_iterator.h \
-    src/leveldb/util/arena.h \
-    src/leveldb/util/coding.h \
-    src/leveldb/util/crc32c.h \
-    src/leveldb/util/hash.h \
-    src/leveldb/util/histogram.h \
-    src/leveldb/util/logging.h \
-    src/leveldb/util/mutexlock.h \
-    src/leveldb/util/posix_logger.h \
-    src/leveldb/util/random.h \
-    src/leveldb/util/testharness.h \
-    src/leveldb/util/testutil.h \
     src/policy/fees.h \
     src/policy/policy.h \
     src/policy/rbf.h \
     src/primitives/block.h \
     src/primitives/transaction.h \
     src/qt/res/viog-qt-res.rc \
-    src/qt/test/paymentrequestdata.h \
-    src/qt/test/paymentservertests.h \
-    src/qt/test/uritests.h \
     src/qt/addressbookpage.h \
     src/qt/addresstablemodel.h \
     src/qt/askpassphrasedialog.h \

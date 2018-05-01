@@ -555,6 +555,35 @@ boost::filesystem::path GetDefaultDataDir()
 #endif
 }
 
+boost::filesystem::path GetDefaultOldDataDir()
+{
+    namespace fs = boost::filesystem;
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\vivoinnovaonexgobyte
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\vivoinnovaonexgobyte
+    // Mac: ~/Library/Application Support/vivoinnovaonexgobyte
+    // Unix: ~/.viog
+#ifdef WIN32
+    // Windows
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "vivoinnovaonexgobyte";
+#else
+    fs::path pathRet;
+    char* pszHome = getenv("HOME");
+    if (pszHome == NULL || strlen(pszHome) == 0)
+        pathRet = fs::path("/");
+    else
+        pathRet = fs::path(pszHome);
+#ifdef MAC_OSX
+    // Mac
+    pathRet /= "Library/Application Support";
+    TryCreateDirectory(pathRet);
+    return pathRet / "vivoinnovaonexgobyte";
+#else
+    // Unix
+    return pathRet / ".vivoinnovaonexgobyte";
+#endif
+#endif
+}
+
 static boost::filesystem::path pathCached;
 static boost::filesystem::path pathCachedNetSpecific;
 static CCriticalSection csPathCached;
@@ -578,8 +607,15 @@ const boost::filesystem::path &GetDataDir(bool fNetSpecific)
             path = "";
             return path;
         }
-    } else {
-        path = GetDefaultDataDir();
+    }
+    else {
+        // If the old folder exists return that one, else the new one (even if it does not exist)
+        path = GetDefaultOldDataDir();
+        if (!boost::filesystem::exists(path)){
+            path = GetDefaultDataDir();
+        }
+        else
+            return path;
     }
     if (fNetSpecific)
         path /= BaseParams().DataDir();
@@ -625,19 +661,20 @@ void ClearDatadirCache()
 
 boost::filesystem::path GetConfigFile()
 {
-    boost::filesystem::path pathConfigFile(GetArg("-conf", BITCOIN_CONF_FILENAME));
-    if (!pathConfigFile.is_complete())
-        pathConfigFile = GetDataDir(false) / pathConfigFile;
-
-    return pathConfigFile;
-}
-
-boost::filesystem::path GetConfigFileOld()
-{
-    boost::filesystem::path pathConfigFile(GetArg("-conf", BITCOIN_CONF_FILENAME));
+    // First check if the old file is there, else use the new one, -conf skips this
+    boost::filesystem::path pathConfigFile(GetArg("-conf", BITCOIN_CONF_FILENAME_OLD));
 
     if (!pathConfigFile.is_complete())
         pathConfigFile = GetDataDir(false) / pathConfigFile;
+
+    // GetDataDir already checks for the old or the new folder, check for the file now
+    if(!boost::filesystem::exists(pathConfigFile) || mapArgs.count("-conf"))
+    {
+        pathConfigFile = GetArg("-conf", BITCOIN_CONF_FILENAME);
+
+        if (!pathConfigFile.is_complete())
+            pathConfigFile = GetDataDir(false) / pathConfigFile;
+    }
 
     return pathConfigFile;
 }

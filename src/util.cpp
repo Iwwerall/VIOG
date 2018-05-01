@@ -662,7 +662,7 @@ boost::filesystem::path GetConfigFile()
     // First check if the old file is there, else use the new one, -conf skips this
     boost::filesystem::path pathConfigFile = GetOldConfigFile();
 
-    if(!pathConfigFile.is_file() || mapArgs.count("-conf"))
+    if(!pathConfigFile.exists() || mapArgs.count("-conf"))
     {
         pathConfigFile = GetArg("-conf", BITCOIN_CONF_FILENAME);
 

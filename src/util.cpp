@@ -607,13 +607,15 @@ const boost::filesystem::path &GetDataDir(bool fNetSpecific)
             path = "";
             return path;
         }
-    } else {
+    }
+    else {
         // If the old folder exists return that one, else the new one (even if it does not exist)
         path = GetDefaultOldDataDir();
-        if (!boost::filesystem::exists(path) || !boost::filesystem::is_directory(path)){
+        if (!boost::filesystem::exists(path)){
             path = GetDefaultDataDir();
         }
-        return path;
+        else
+            return path;
     }
     if (fNetSpecific)
         path /= BaseParams().DataDir();
